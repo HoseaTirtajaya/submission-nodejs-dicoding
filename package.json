@@ -1,0 +1,26 @@
+{
+  "name": "submission_backend_dicoding",
+  "version": "1.0.0",
+  "description": "Submission for dicoding Belajar Membuat Aplikasi Back-End untuk Pemula",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "set NODE_ENV=development&&nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoseaTirtajaya/submission-nodejs-dicoding.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HoseaTirtajaya/submission-nodejs-dicoding/issues"
+  },
+  "homepage": "https://github.com/HoseaTirtajaya/submission-nodejs-dicoding#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.2",
+    "dotenv": "^8.2.0",
+    "i": "^0.3.6",
+    "npm": "^7.11.2"
+  }
+}
