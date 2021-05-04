@@ -1,6 +1,9 @@
-const Hapi = require("@hapi/hapi")
+const Hapi = require("@hapi/hapi");
+const { Console } = require("console");
 const http = require("http");
 const dotenv = require('dotenv').config();
+
+const booksController = require("./controllers/booksController");
 
 const init = async () => {
     const routes = require("./routes");
@@ -17,6 +20,25 @@ const init = async () => {
         path: "/",
         handler: (request, h) => {
             return h.response(`<h1 align="center">Welcome to Webserver(Tutorial by Dicoding) on ${server.info.uri}</h1>`).code(201)
+        }
+    });
+
+    server.route({
+        method: "POST",
+        path: "/books",
+        handler: (request, h) => {
+            let Books = booksController.createBooks(request, h);
+            // console.log(Books)
+            return h.response({Books})
+        }
+    });
+
+    server.route({
+        method: "GET",
+        path: "/books",
+        handler: (request, h) => {
+            let Books = booksController.getBooks(request, h);
+            return h.response({message: "ah"});
         }
     });
 
