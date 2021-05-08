@@ -5,14 +5,18 @@ const dotenv = require('dotenv').config()
 const booksController = require("./controllers/booksController");
 
 const init = async () => {
-    const routes = require("./routes");
-    // let server = http.createServer(routes);
-
     const server = Hapi.server({
         port: process.env.PORT,
-        host: process.env.HOST
+        host: process.env.HOST,
+        routes: {
+            cors: {
+                origin: ["*"],
+                headers: ["Accept", "Content-Type"],
+                additionalHeaders: ["X-Requested-With"]
+            }
+        }
     });
-
+    
     server.route({
         method: "GET",
         path: "/",
@@ -41,7 +45,6 @@ const init = async () => {
 
             handler: (request, h) => {
                 let Books = booksController.createBooks(request, h);
-                // console.log(Books)
                 if(typeof(Books) === "string"){
                     return h.response({status: "fail", message: Books}).code(400);
                 } else if(typeof(Books) === "object"){

@@ -27,12 +27,13 @@ class booksController{
 
     static getBooks(request, h){
         let books = [];
-        
+        let {name, reading, finished} = request.query;
+
         Books.forEach(item => {
             books.push({
-              id: item.id,
-              name: item.name,
-              publisher: item.publisher  
+                id: item.id,
+                name: item.name,
+                publisher: item.publisher  
             })
         });
         let response = {
@@ -43,7 +44,7 @@ class booksController{
         }
         return response;
     }
-    
+
     static getSpecificBooks(request, h) {
         let {bookId} = request.params;
         let {name, year, author, summary, publisher, pageCount, readPage, reading} = request.payload;
