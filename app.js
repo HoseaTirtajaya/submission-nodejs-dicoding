@@ -95,13 +95,26 @@ const init = async () => {
             },
         },
         handler: (request, h) => {
-            let Books = booksController.getSpecificBooks(request, h);
+            let Books = booksController.updateBook(request, h);
 
             if(Books.message === "Gagal memperbaharui buku. Buku tidak ditemukan"){
                 return h.response(Books).code(404)
             } else if(Books.message === "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount"){
                 return h.response(Books).code(400)
             } else if(Books){
+                return h.response(Books).code(200)
+            }
+        }
+    });
+
+    server.route({
+        method: "GET",
+        path: "/books/{bookId}",
+        handler: (request, h) => {
+            let Books = booksController.getSpecificBook(request, h);
+            if(Books.message === "Buku tidak ditemukan"){
+                return h.response(Books).code(404)
+            } else {
                 return h.response(Books).code(200)
             }
         }

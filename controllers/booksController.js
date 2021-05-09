@@ -81,7 +81,7 @@ class booksController{
         }
     }
 
-    static getSpecificBooks(request, h) {
+    static updateBook(request, h) {
         let {bookId} = request.params;
         let {name, year, author, summary, publisher, pageCount, readPage, reading} = request.payload;
         let found = false;
@@ -157,6 +157,31 @@ class booksController{
         }
     }
 
+    static getSpecificBook(request, h) {
+        let {bookId} = request.params;
+        let found = false;
+
+        for(let j = 0; j < Books.length; j++){
+            if(Books[j].id == bookId){
+                found = true;
+
+                let response = {
+                    status: "success",
+                    data: Books[j]
+                }
+
+                return response;
+            }
+        }
+
+        if(found === false){
+            let response = {
+                status: "fail",
+                message: "Buku tidak ditemukan"
+            }
+            return response;
+        }
     }
+}
 
 module.exports = booksController;
