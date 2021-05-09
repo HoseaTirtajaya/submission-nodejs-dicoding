@@ -29,20 +29,56 @@ class booksController{
         let books = [];
         let {name, reading, finished} = request.query;
 
-        Books.forEach(item => {
-            books.push({
-                id: item.id,
-                name: item.name,
-                publisher: item.publisher  
+        if(JSON.stringify(request.query) !== '{}'){
+            Books.forEach(item => {
+                if(item.reading == reading){
+                   books.push({
+                        id: item.id,
+                        name: item.name,
+                        publisher: item.publisher  
+                    }) 
+                } 
+                
+                if(item.finished == finished){
+                    books.push({
+                        id: item.id,
+                        name: item.name,
+                        publisher: item.publisher  
+                    })
+                }
+
+                if(name !== undefined && name !== null){
+                    if(name.toLowerCase() == item.name.toLowerCase())
+                    books.push({
+                        id: item.id,
+                        name: item.name,
+                        publisher: item.publisher  
+                    })
+                }
             })
-        });
-        let response = {
-            status: "success",
-            data: {
-                books
+            let response = {
+                status: "success",
+                data: {
+                    books
+                }
             }
+            return response;
+        } else {
+            Books.forEach(item => {
+                books.push({
+                    id: item.id,
+                    name: item.name,
+                    publisher: item.publisher  
+                })
+            });
+            let response = {
+                status: "success",
+                data: {
+                    books
+                }
+            }
+            return response;
         }
-        return response;
     }
 
     static getSpecificBooks(request, h) {

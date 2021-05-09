@@ -30,6 +30,9 @@ const init = async () => {
         path: "/books",
         config: {
             validate: {
+                options: {
+                    abortEarly: false
+                },
                 payload: Joi.object({
                     name: Joi.string().required(),
                     year: Joi.number().required(),
@@ -40,18 +43,21 @@ const init = async () => {
                     readPage: Joi.number().required(),
                     reading: Joi.boolean().required()
                 }),
-                
-            },
 
-            handler: (request, h) => {
-                let Books = booksController.createBooks(request, h);
-                if(typeof(Books) === "string"){
-                    return h.response({status: "fail", message: Books}).code(400);
-                } else if(typeof(Books) === "object"){
-                    return h.response({Books}).code(201);
-                } else {
-                    return h.response({Books}).code(500)
+                failAction: (request, h, err) => {
+                    return h.response({status: "fail", message: err.message}).code(400).takeover();
                 }
+            },
+        },
+
+        handler: (request, h) => {
+            let Books = booksController.createBooks(request, h);
+            if(typeof(Books) === "string"){
+                return h.response({status: "fail", message: Books}).code(400);
+            } else if(typeof(Books) === "object"){
+                return h.response({Books}).code(201);
+            } else {
+                return h.response({Books}).code(500)
             }
         }
     });
@@ -70,6 +76,9 @@ const init = async () => {
         path: "/books/{bookId}",
         config: {
             validate: {
+                options:{
+                    abortEarly: false
+                },
                 payload: Joi.object({
                     name: Joi.string().required(),
                     year: Joi.number().required(),
@@ -80,7 +89,9 @@ const init = async () => {
                     readPage: Joi.number().required(),
                     reading: Joi.boolean().required()
                 }),
-                
+                failAction: (request, h, err) => {
+                    return h.response({status: "fail", message: err.message}).code(400).takeover();
+                }
             },
         },
         handler: (request, h) => {
